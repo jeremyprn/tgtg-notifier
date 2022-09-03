@@ -57,9 +57,10 @@ const tgtg = async() => {
   //If array empty get new items
   if(oldItems.length < 1) storeItems = newItems;
 
-  for (let i = 0; i < storeItems.length; i++)
-    if(oldItems[i].quantity != newItems[i].quantity && newItems[i].quantity == 1)
-      sendMail("TGTG Notifier", `Nouveau panier -> ${newItems[i].name}`)
+  if(oldItems.length > 1)
+    for (let i = 0; i < storeItems.length; i++)
+      if(oldItems[i].quantity != newItems[i].quantity && newItems[i].quantity == 1)
+        sendMail("TGTG Notifier", `Nouveau panier -> ${newItems[i].name}`)
   
   console.log(`TGTG Notifier cron`);
 
