@@ -103,3 +103,4 @@ app.get('/', (req, res) => {
 
 app.listen(PORT, HOST);
 console.log(`TGTG Notifier is running`);
+sendMail("TGTG Notifier", "Project is running");
