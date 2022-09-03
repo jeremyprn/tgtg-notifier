@@ -34,11 +34,17 @@ const getItems = async () => {
     },
     data : data
   };
+  try {
+    const httpCall = await axios(config);
+    const response = await JSON.stringify(httpCall.data)
+    
+    return JSON.parse(response);
 
-  const httpCall = await axios(config);
-  const response = await JSON.stringify(httpCall.data)
-  
-  return JSON.parse(response);
+  } catch (error) {
+    sendMail('TGTG Notifier error', error);
+  }
+
+  return;
     
 }
 
@@ -62,7 +68,14 @@ const tgtg = async() => {
       if(oldItems[i].quantity != newItems[i].quantity && newItems[i].quantity == 1)
         sendMail("TGTG Notifier", `Nouveau panier -> ${newItems[i].name}`)
   
-  console.log(`TGTG Notifier cron`);
+  const currentdate = new Date();
+  const date = currentdate.getDate() + "/"
+                + (currentdate.getMonth()+1)  + "/" 
+                + currentdate.getFullYear() + " - "  
+                + currentdate.getHours() + ":"  
+                + currentdate.getMinutes() + ":" 
+                + currentdate.getSeconds();
+  console.log(`TGTG Notifier cron | Get items | ${date}`);
 
 }
 
@@ -92,7 +105,7 @@ const sendMail = async(object, message) => {
 }
 
 
-cron.schedule("*/30 * * * * *", function() {
+cron.schedule("*/5 * * * *", function() {
   tgtg();
 });
 
